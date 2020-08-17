@@ -11,8 +11,15 @@ import Foundation
 struct MemoryGame<CardContent> {
     var cards: Array<Card>
     
-    func choose(card: Card) {
+    mutating func choose(card: Card) {
         print("Card chosen \(card)")
+        let chosenIndex = self.indexOf(card: card)
+        self.cards[chosenIndex].isFaceUp = !self.cards[chosenIndex].isFaceUp
+        print("Card chosen \(self.cards[chosenIndex])")
+    }
+    
+    func indexOf(card: Card) -> Int {
+        self.cards.firstIndex(where: {$0.id == card.id})!
     }
     
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
