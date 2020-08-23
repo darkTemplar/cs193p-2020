@@ -14,7 +14,9 @@ class EmojiMemoryGame: ObservableObject {
         
     
     init() {
-        let gameTheme = EmojiMemoryGame.chooseGameTheme()
+        var gameTheme = EmojiMemoryGame.chooseGameTheme()
+        // shuffle emojis to get a diff. bunch each time
+        gameTheme.emojiSet.shuffle()
         model = MemoryGame<String>(numberOfPairsOfCards: gameTheme.numberOfPairsOfCards){ index in
             return gameTheme.emojiSet[index]
         }
