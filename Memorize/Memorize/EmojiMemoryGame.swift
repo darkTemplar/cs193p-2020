@@ -27,9 +27,9 @@ class EmojiMemoryGame: ObservableObject {
     static func chooseGameTheme() -> EmojiMemoryGameTheme {
         // TODO: support more themes
         let themes = [
-            EmojiMemoryGameTheme(name: "Animals", numberOfPairsOfCards: 4, emojiSet: ["🦒", "🐆", "🐅", "🐘", "🦘", "🦌", "🦧", "🐪", "🦙", "🦍"], color: Color.blue),
+            EmojiMemoryGameTheme(name: "Animals", numberOfPairsOfCards: 5, emojiSet: ["🦒", "🐆", "🐅", "🐘", "🦘", "🦌", "🦧", "🐪", "🦙", "🦍"], color: Color.blue),
             EmojiMemoryGameTheme(name: "Birds", numberOfPairsOfCards: 4, emojiSet: ["🦢", "🐓", "🦆", "🦅", "🦉", "🦃", "🦚", "🦩"], color: Color.yellow),
-            EmojiMemoryGameTheme(name: "Halloween", numberOfPairsOfCards: 5, emojiSet: ["👻", "🎃", "👽", "💀", "👺", "🤡", "👿", "🤖", "👹"], color: Color.orange)
+            EmojiMemoryGameTheme(name: "Halloween", numberOfPairsOfCards: 3, emojiSet: ["👻", "🎃", "👽", "💀", "👺", "🤡", "👿", "🤖", "👹"], color: Color.orange)
         ]
         let chosenGameIndex = Int.random(in: 0..<themes.count)
         return themes[chosenGameIndex]

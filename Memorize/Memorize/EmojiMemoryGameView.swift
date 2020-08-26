@@ -12,16 +12,14 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
 
     var body: some View {
-        HStack {
-            ForEach(viewModel.cards){ card in
+        Grid (items: viewModel.cards){ card in
                 CardView(card: card).onTapGesture {
                     self.viewModel.choose(card: card)
                 }
+                .padding(5)
             }
-        }
             .padding()
             .foregroundColor(viewModel.themeColor)
-            .font(viewModel.cards.count < 5 ? Font.largeTitle : Font.title)
     }
 }
 
@@ -34,17 +32,19 @@ struct ContentView_Previews: PreviewProvider {
 struct CardView: View {
     var card: MemoryGame<String>.Card
     var body: some View {
-        return ZStack {
-            if card.isFaceUp {
-                RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
-                RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 3.0)
-                Text(card.content)
+        GeometryReader { geometry in
+            return ZStack {
+                if self.card.isFaceUp {
+                    RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
+                    RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 3.0)
+                    Text(self.card.content)
+                }
+                else {
+                    RoundedRectangle(cornerRadius: 10.0)
+                }
             }
-            else {
-                RoundedRectangle(cornerRadius: 10.0)
-            }
-            
+            .font(Font.system(size: min(geometry.size.width, geometry.size.height) * 0.75))
         }
-        .aspectRatio(0.667, contentMode: .fit)
+        
     }
 }
