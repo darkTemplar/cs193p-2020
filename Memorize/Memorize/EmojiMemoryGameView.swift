@@ -26,18 +26,20 @@ struct EmojiMemoryGameView: View {
             }.padding()
             
             Grid (items: viewModel.cards){ card in
-                CardView(card: card).onTapGesture {
+                CardView(card: card, gradient: LinearGradient(gradient: Gradient(colors: self.viewModel.themeColors), startPoint: .topLeading, endPoint: .bottomTrailing)).onTapGesture {
                     self.viewModel.choose(card: card)
                 }
                 .padding(5)
             }
             .padding()
-            .foregroundColor(viewModel.themeColor)
         }
-        
     }
     
 }
+
+/**
+ 
+ */
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -47,17 +49,18 @@ struct ContentView_Previews: PreviewProvider {
 
 struct CardView: View {
     var card: MemoryGame<String>.Card
+    var gradient: LinearGradient
     var body: some View {
         GeometryReader { geometry in
             return ZStack {
                 if self.card.isFaceUp {
                     RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
-                    RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 3.0)
+                    RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 3.0).fill(self.gradient)
                     Text(self.card.content)
                 }
                 else {
                     if !self.card.isMatched {
-                        RoundedRectangle(cornerRadius: 10.0)
+                        RoundedRectangle(cornerRadius: 10.0).fill(self.gradient)
                     }
                     
                 }

@@ -12,9 +12,9 @@ struct EmojiMemoryGameTheme {
     var name: String
     var emojiSet: Array<String>
     var numberOfPairsOfCards: Int
-    var color: Color
+    var color: Array<Color>
     
-    init(name: String, numberOfPairsOfCards: Int?, emojiSet: Array<String>, color: Color) {
+    init(name: String, numberOfPairsOfCards: Int?, emojiSet: Array<String>, color: Array<Color>) {
         self.name = name
         self.emojiSet = emojiSet
         if let numCards = numberOfPairsOfCards {

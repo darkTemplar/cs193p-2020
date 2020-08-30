@@ -29,12 +29,12 @@ class EmojiMemoryGame: ObservableObject {
         
     static func chooseGameTheme() -> EmojiMemoryGameTheme {
         let themes = [
-            EmojiMemoryGameTheme(name: "Animals", numberOfPairsOfCards: 6, emojiSet: ["🦒", "🐆", "🐅", "🐘", "🦘", "🦌", "🦧", "🐪", "🦙", "🦍"], color: Color.blue),
-            EmojiMemoryGameTheme(name: "Birds", numberOfPairsOfCards: 6, emojiSet: ["🦢", "🐓", "🦆", "🦅", "🦉", "🦃", "🦚", "🦩"], color: Color.yellow),
-            EmojiMemoryGameTheme(name: "Halloween", numberOfPairsOfCards: 6, emojiSet: ["👻", "🎃", "👽", "💀", "👺", "🧝‍♀️", "🧟‍♂️", "🧛🏻‍♂️", "🧞‍♀️"], color: Color.orange),
-            EmojiMemoryGameTheme(name: "Clothes", numberOfPairsOfCards: 6, emojiSet: ["👔", "🩳", "👗", "🥼", "🧥", "👘", "🥻", "👖", "🦺"], color: Color.red),
-            EmojiMemoryGameTheme(name: "Food", numberOfPairsOfCards: 6, emojiSet: ["🌮", "🍗", "🍣", "🥠", "🍰", "🍤", "🥪", "🥮", "🍕"], color: Color.green),
-            EmojiMemoryGameTheme(name: "Sports", numberOfPairsOfCards: 6, emojiSet: ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🎱", "🏸", "🥍"], color: Color.gray)
+            EmojiMemoryGameTheme(name: "Animals", numberOfPairsOfCards: 6, emojiSet: ["🦒", "🐆", "🐅", "🐘", "🦘", "🦌", "🦧", "🐪", "🦙", "🦍"], color: [Color.blue, Color.white, Color.pink]),
+            EmojiMemoryGameTheme(name: "Birds", numberOfPairsOfCards: 6, emojiSet: ["🦢", "🐓", "🦆", "🦅", "🦉", "🦃", "🦚", "🦩"], color: [Color.blue, Color.white, Color.black]),
+            EmojiMemoryGameTheme(name: "Halloween", numberOfPairsOfCards: 6, emojiSet: ["👻", "🎃", "👽", "💀", "👺", "🧝‍♀️", "🧟‍♂️", "🧛🏻‍♂️", "🧞‍♀️"], color: [Color.orange, Color.orange]),
+            EmojiMemoryGameTheme(name: "Clothes", numberOfPairsOfCards: 6, emojiSet: ["👔", "🩳", "👗", "🥼", "🧥", "👘", "🥻", "👖", "🦺"], color: [Color.red, Color.orange, Color.yellow]),
+            EmojiMemoryGameTheme(name: "Food", numberOfPairsOfCards: 6, emojiSet: ["🌮", "🍗", "🍣", "🥠", "🍰", "🍤", "🥪", "🥮", "🍕"], color: [Color.green, Color.yellow]),
+            EmojiMemoryGameTheme(name: "Sports", numberOfPairsOfCards: 6, emojiSet: ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🎱", "🏸", "🥍"], color: [Color.white, Color.pink, Color.red])
         ]
         let chosenGameIndex = Int.random(in: 0..<themes.count)
         return themes[chosenGameIndex]
@@ -56,7 +56,7 @@ class EmojiMemoryGame: ObservableObject {
         return gameTheme.name
     }
     
-    var themeColor: Color {
+    var themeColors: Array<Color> {
         return gameTheme.color
     }
     
