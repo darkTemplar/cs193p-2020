@@ -14,10 +14,16 @@ struct EmojiMemoryGameView: View {
     var body: some View {
         VStack {
             HStack {
-                Button("New Game", action: viewModel.resetGame).foregroundColor(.black).padding(5).background(Color.green).cornerRadius(8.0)
-                Text(viewModel.themeName)
+                Button("New Game", action: viewModel.resetGame)
+                    .foregroundColor(Color.white)
+                    .padding(10)
+                    .background(Color.green)
+                    .cornerRadius(8.0)
+                Spacer()
+                Text(viewModel.themeName).font(.headline)
+                Spacer()
                 Text("Score: \(viewModel.score)")
-            }
+            }.padding()
             
             Grid (items: viewModel.cards){ card in
                 CardView(card: card).onTapGesture {
