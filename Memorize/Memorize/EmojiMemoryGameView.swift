@@ -14,9 +14,9 @@ struct EmojiMemoryGameView: View {
     var body: some View {
         VStack {
             HStack {
-                Button("New Game", action: viewModel.resetGame)
+                Button("New Game", action: viewModel.resetGame).foregroundColor(.black).padding(5).background(Color.green).cornerRadius(8.0)
                 Text(viewModel.themeName)
-                Text("Score: 0")
+                Text("Score: \(viewModel.score)")
             }
             
             Grid (items: viewModel.cards){ card in
@@ -50,7 +50,10 @@ struct CardView: View {
                     Text(self.card.content)
                 }
                 else {
-                    RoundedRectangle(cornerRadius: 10.0)
+                    if !self.card.isMatched {
+                        RoundedRectangle(cornerRadius: 10.0)
+                    }
+                    
                 }
             }
             .font(Font.system(size: min(geometry.size.width, geometry.size.height) * 0.75))
