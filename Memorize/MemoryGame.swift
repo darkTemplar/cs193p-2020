@@ -9,9 +9,9 @@
 import Foundation
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
-    var cards: Array<Card>
-    var score: Int = 0
-    var onlyFaceUpCardIndex: Int? {
+    private(set) var cards: Array<Card>
+    private(set) var score: Int = 0
+    private var onlyFaceUpCardIndex: Int? {
         get {
             let faceUpIndices: [Int] = cards.indices.filter {cards[$0].isFaceUp}
             return faceUpIndices.count == 1 ? faceUpIndices.first : nil
@@ -35,24 +35,12 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 } else {
                     // in case of a mismatch deduct -1 if card already seen
                     // however only set already seen prop when evaluating a mismatch and this only needs to happen after the card has been evaluated for a match
-                    // set chosenCard and the the dual card containing the same content to already seen
-                    if self.cards[chosenIndex].alreadySeen {
-                        score += -1
-                    } else {
+                        score += self.cards[chosenIndex].alreadySeen ? -1 : 0
+                        score += self.cards[potentialMatchIndex].alreadySeen ? -1 : 0
                         self.cards[chosenIndex].alreadySeen = true
-                        let dualChosenIndex = dualIndexOf(card: self.cards[chosenIndex])
-                        self.cards[dualChosenIndex!].alreadySeen = true
+                    self.cards[potentialMatchIndex].alreadySeen = true
                     }
-                    if self.cards[potentialMatchIndex].alreadySeen {
-                        score += -1
-                    } else {
-                        // same for potential matching card and its dual content card
-                        self.cards[potentialMatchIndex].alreadySeen = true
-                        let dualPotentialMatchIndex = dualIndexOf(card: self.cards[potentialMatchIndex])
-                        self.cards[dualPotentialMatchIndex!].alreadySeen = true
-                    }
-                }
-            } else {
+                } else {
                 // single cards will go through this flow
                 onlyFaceUpCardIndex = chosenIndex
             }
@@ -62,11 +50,6 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     func indexOf(card: Card) -> Int? {
         self.cards.firstIndex(where: {$0.id == card.id})
-    }
-    
-    func dualIndexOf(card: Card) -> Int? {
-        let id = card.id % 2 == 0 ? card.id + 1 : card.id - 1
-        return self.cards.firstIndex(where: {$0.id == id})
     }
     
     func indexOfMatch(for card: Card) -> Int? {
