@@ -17,7 +17,7 @@ class EmojiMemoryGame: ObservableObject {
         (self.gameTheme, self.model) = EmojiMemoryGame.newGame()
     }
     
-    static func newGame() -> (theme: EmojiMemoryGameTheme, model: MemoryGame<String>) {
+    private static func newGame() -> (theme: EmojiMemoryGameTheme, model: MemoryGame<String>) {
         var gameTheme = EmojiMemoryGame.chooseGameTheme()
         // shuffle emojis to get a diff. bunch each time
         gameTheme.emojiSet.shuffle()
