@@ -14,7 +14,11 @@ struct EmojiMemoryGameView: View {
     var body: some View {
         VStack {
             HStack {
-                Button("New Game", action: viewModel.resetGame)
+                Button(action: {
+                    withAnimation(.easeInOut) {
+                        self.viewModel.resetGame()
+                    }
+                }, label: {Text("New Game")})
                     .foregroundColor(Color.white)
                     .padding(10)
                     .background(Color.green)
@@ -27,7 +31,9 @@ struct EmojiMemoryGameView: View {
             
             Grid (items: viewModel.cards){ card in
                 CardView(card: card, gradient: LinearGradient(gradient: Gradient(colors: self.viewModel.themeColors), startPoint: .topLeading, endPoint: .bottomTrailing)).onTapGesture {
-                    self.viewModel.choose(card: card)
+                    withAnimation(.linear(duration: 1)) {
+                        self.viewModel.choose(card: card)
+                    }
                 }
                 .padding(5)
             }
@@ -36,10 +42,6 @@ struct EmojiMemoryGameView: View {
     }
     
 }
-
-/**
- 
- */
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -63,13 +65,16 @@ struct CardView: View {
         if card.isFaceUp || !card.isMatched {
             self.content(for: size)
             .cardify(isFaceUp: card.isFaceUp, gradient: gradient)
+                .transition(AnyTransition.scale)
         }
     }
     
     private func content(for size: CGSize) -> some View {
         ZStack {
             Pie(startAngle: Angle(degrees: 0.0 - 90.0), endAngle: Angle(degrees: 110.0 - 90.0), clockwise: true).padding(5).foregroundColor(.orange).opacity(0.3)
-            Text(card.content).font(Font.system(size: fontSize(for: size)))
+            Text(card.content)
+                .font(Font.system(size: fontSize(for: size)))
+                .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0)).animation(card.isMatched ? Animation.linear(duration: 1).repeatForever(autoreverses: false) : .default)
         }
     }
     
