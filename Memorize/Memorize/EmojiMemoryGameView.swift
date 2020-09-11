@@ -29,15 +29,25 @@ struct EmojiMemoryGameView: View {
                 Text("Score: \(viewModel.score)")
             }.padding()
             
-            Grid (items: viewModel.cards){ card in
-                CardView(card: card, gradient: LinearGradient(gradient: Gradient(colors: self.viewModel.themeColors), startPoint: .topLeading, endPoint: .bottomTrailing)).onTapGesture {
-                    withAnimation(.linear(duration: 1)) {
-                        self.viewModel.choose(card: card)
+            Group {
+                if viewModel.isActiveGame {
+                    Grid (items: viewModel.cards){ card in
+                        CardView(card: card, gradient: LinearGradient(gradient: Gradient(colors: self.viewModel.themeColors), startPoint: .topLeading, endPoint: .bottomTrailing)).onTapGesture {
+                            withAnimation(.linear(duration: 0.7)) {
+                                self.viewModel.choose(card: card)
+                            }
+                        }
+                        .padding(5)
+                    }
+                    .transition(AnyTransition.scale)
+                } else {
+                    GeometryReader { geometry in
+                        Text("\(self.viewModel.score)")
+                            .frame(width: 300, height: 300, alignment: .center)
+                            .font(Font.system(size: min(geometry.size.width, geometry.size.height) * 0.5))
                     }
                 }
-                .padding(5)
-            }
-            .padding()
+            }.padding()
         }
     }
     

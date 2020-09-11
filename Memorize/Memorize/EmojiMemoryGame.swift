@@ -60,6 +60,10 @@ class EmojiMemoryGame: ObservableObject {
         return gameTheme.color
     }
     
+    var isActiveGame: Bool {
+        return model.numberOfPairsOfActiveCards > 0
+    }
+    
     // MARK: - Intent(s)
     func choose(card: MemoryGame<String>.Card) {
         model.choose(card: card)

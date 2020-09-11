@@ -11,6 +11,8 @@ import Foundation
 struct MemoryGame<CardContent> where CardContent: Equatable {
     private(set) var cards: Array<Card>
     private(set) var score: Int = 0
+    private(set) var numberOfPairsOfActiveCards: Int
+    
     private var onlyFaceUpCardIndex: Int? {
         get {
             let faceUpIndices: [Int] = cards.indices.filter {cards[$0].isFaceUp}
@@ -33,15 +35,17 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                     score += 5 + bonus
                     self.cards[potentialMatchIndex].isMatched = true
                     self.cards[chosenIndex].isMatched = true
+                    // decrement active pairs of cards
+                    self.numberOfPairsOfActiveCards -= 1
                 } else {
                     // in case of a mismatch deduct -5 if card already seen
                     // however only set already seen prop when evaluating a mismatch and this only needs to happen after the card has been evaluated for a match
-                        score += self.cards[chosenIndex].alreadySeen ? -5 : 0
-                        score += self.cards[potentialMatchIndex].alreadySeen ? -5 : 0
-                        self.cards[chosenIndex].alreadySeen = true
+                    score += self.cards[chosenIndex].alreadySeen ? -5 : 0
+                    score += self.cards[potentialMatchIndex].alreadySeen ? -5 : 0
+                    self.cards[chosenIndex].alreadySeen = true
                     self.cards[potentialMatchIndex].alreadySeen = true
-                    }
-                } else {
+                }
+            } else {
                 // single cards will go through this flow
                 onlyFaceUpCardIndex = chosenIndex
             }
@@ -62,6 +66,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     }
     
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
+        numberOfPairsOfActiveCards = numberOfPairsOfCards
         cards = Array<Card>()
         for index in 0..<numberOfPairsOfCards{
             cards.append(Card(isMatched: false, alreadySeen: false, id: index*2, content: cardContentFactory(index)))
