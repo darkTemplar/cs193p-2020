@@ -60,6 +60,16 @@ struct CardView: View {
         }
     }
     
+    @State var animatedBonusRemaining: Double = 0
+    
+    private func startBonusTimeAnimation() {
+        animatedBonusRemaining = card.bonusRemaining
+        withAnimation(.linear(duration: card.bonusTimeRemaining)) {
+            animatedBonusRemaining = 0
+        }
+    }
+    
+    
     @ViewBuilder
     private func body(for size: CGSize) -> some View {
         if card.isFaceUp || !card.isMatched {
@@ -71,7 +81,18 @@ struct CardView: View {
     
     private func content(for size: CGSize) -> some View {
         ZStack {
-            Pie(startAngle: Angle(degrees: 0.0 - 90.0), endAngle: Angle(degrees: 110.0 - 90.0), clockwise: true).padding(5).foregroundColor(.orange).opacity(0.3)
+            Group {
+                if card.isConsumingBonusTime {
+                    Pie(startAngle: Angle(degrees: 0.0 - 90.0), endAngle: Angle(degrees: -360*animatedBonusRemaining - 90.0), clockwise: true)
+                        .onAppear{
+                            self.startBonusTimeAnimation()
+                    }
+                } else {
+                    Pie(startAngle: Angle(degrees: 0.0 - 90.0), endAngle: Angle(degrees: -360*card.bonusRemaining - 90.0), clockwise: true)
+                }
+            }.padding(5).foregroundColor(.orange).opacity(0.3)
+            
+            
             Text(card.content)
                 .font(Font.system(size: fontSize(for: size)))
                 .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0)).animation(card.isMatched ? Animation.linear(duration: 1).repeatForever(autoreverses: false) : .default)
