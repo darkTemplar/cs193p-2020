@@ -29,14 +29,15 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         if let chosenIndex = indexOf(card: card), !self.cards[chosenIndex].isFaceUp, !self.cards[chosenIndex].isMatched {
             if let potentialMatchIndex = self.onlyFaceUpCardIndex {
                 if (self.cards[chosenIndex].content == self.cards[potentialMatchIndex].content){
-                    score += 2
+                    let bonus = Int(5*(self.cards[chosenIndex].bonusRemaining + self.cards[potentialMatchIndex].bonusRemaining))
+                    score += 5 + bonus
                     self.cards[potentialMatchIndex].isMatched = true
                     self.cards[chosenIndex].isMatched = true
                 } else {
-                    // in case of a mismatch deduct -1 if card already seen
+                    // in case of a mismatch deduct -5 if card already seen
                     // however only set already seen prop when evaluating a mismatch and this only needs to happen after the card has been evaluated for a match
-                        score += self.cards[chosenIndex].alreadySeen ? -1 : 0
-                        score += self.cards[potentialMatchIndex].alreadySeen ? -1 : 0
+                        score += self.cards[chosenIndex].alreadySeen ? -5 : 0
+                        score += self.cards[potentialMatchIndex].alreadySeen ? -5 : 0
                         self.cards[chosenIndex].alreadySeen = true
                     self.cards[potentialMatchIndex].alreadySeen = true
                     }
@@ -95,7 +96,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         // if card is matched before a certain time limit while card is face up
         
         // can be 0 meaning no bonus available for this card
-        var bonusTimeLimit: TimeInterval = 6
+        var bonusTimeLimit: TimeInterval = 5
         
         // last time when card was turned face up (and is still face up)
         var lastFaceUpdate: Date?
